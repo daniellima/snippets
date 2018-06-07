@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Starting application using application provided script!"
+echo "UID: $UID"
+cd /home/application/current/
+FLASK_APP=hello.py flask run --host=0.0.0.0

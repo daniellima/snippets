@@ -1,0 +1,8 @@
+deb http://artifacts-vip.stone.com.br/artifactory/ubuntu xenial main restricted universe multiverse
+deb http://artifacts-vip.stone.com.br/artifactory/ubuntu xenial-updates main restricted universe multiverse
+deb http://artifacts-vip.stone.com.br/artifactory/ubuntu xenial-security main restricted universe multiverse
+deb http://artifacts-vip.stone.com.br/artifactory/ubuntu xenial-backports main restricted universe multiverse
+
+deb http://artifacts-vip.stone.com.br/artifactory/ubuntu-tsuru xenial main
+deb http://artifacts-vip.stone.com.br/artifactory/ubuntu-microsoft/16.04/prod xenial main
+deb http://artifacts-vip.stone.com.br/artifactory/ubuntu-oracle xenial main alien
