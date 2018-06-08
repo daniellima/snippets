@@ -1,6 +1,0 @@
-#!/bin/bash -el
-
-echo "Starting application!"
-cd /home/application/current/
-ls /home/ubuntu/.local/bin/
-FLASK_APP=hello.py FLASK_DEBUG=1 /home/ubuntu/.local/bin/flask run --host=0.0.0.0

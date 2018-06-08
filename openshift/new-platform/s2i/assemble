@@ -4,9 +4,13 @@ source ${SOURCE_DIR}/base/rc/config
 source ${SOURCE_DIR}/base/rc/os_dependencies
 
 mv /tmp/src/* ./home/application/current/
+rm -Rf /tmp/src/
 
-sudo chmod -R 777 /home/application/current/
+chgrp -Rf root /home/application/current/ && chmod -Rf g+w /home/application/current/
+# sudo chmod -R 777 /home/application/current/
 
 os_dependencies
 
 sudo pip3 install Flask
+
+
