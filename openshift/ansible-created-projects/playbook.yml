@@ -1,0 +1,26 @@
+---
+
+- name: Create a new project on openshift
+  hosts: localhost
+  tasks:
+    - openshift_raw:
+        api_version: v1
+        kind: Project
+        name: testing
+        description: Testing
+        display_name: "This is a test project."
+        state: present
+    - openshift_raw:
+        state: present
+        src: "manager-rolebinding.yaml"
+      # This is necessary because of a bug on the ansible module fixed only on ansible 2.6 regardind RoleBindings. For now, use this workaround.
+      # See https://github.com/ansible/ansible/issues/36939
+      ignore_errors: True
+      register: creation_result
+    - name: fail the play if the previous command did not succeed
+      fail:
+        msg: "the command failed with an unknow error"
+      when: "'Invalid value for `api_group`, must not be `None`' not in creation_result.module_stderr"
+    - openshift_raw:
+        state: present
+        src: "service.yml"

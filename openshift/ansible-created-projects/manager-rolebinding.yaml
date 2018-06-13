@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: RoleBinding
+metadata:
+  namespace: openshift
+  name: manager
+roleRef:
+  kind: ClusterRole
+  name: admin
+subjects:
+  - kind: User
+    name: developer
