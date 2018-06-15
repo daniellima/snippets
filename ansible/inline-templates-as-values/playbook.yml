@@ -1,0 +1,30 @@
+---
+
+- hosts: localhost
+  tasks:
+    - set_fact:
+        hosts:
+          - pc1
+          - pc2
+          - pc3
+    - set_fact:
+        hosts_in_yaml: |
+          {% for host in hosts %}
+            - name: {{ host }}
+              uppercase_name: {{ host | upper }}
+          {% endfor %}
+        hosts_in_json: |
+          [{% for host in hosts %}
+            {
+              "name": "{{ host }}", 
+              "uppercase_name": "{{ host | upper }}"
+            },
+          {% endfor %}]
+    # note how a json value is automaticaly translated
+    - debug:
+        msg: "{{ hosts_in_json }}"
+    # but a yaml value is not
+    - debug:
+        msg: "{{ hosts_in_yaml }}"
+    - debug:
+        msg: "{{ hosts_in_yaml | from_yaml }}"
