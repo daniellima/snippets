@@ -1,0 +1,41 @@
+---
+
+- hosts: gcp_vms
+  tasks:
+    - debug:
+        msg: "Oi"
+    - debug:
+        msg: "{{ ansible_playbook_python }}"
+    - command: "which python"
+      register: output
+    - debug:
+        msg: "{{ output }}"
+
+- hosts: gcp_vms
+  vars:
+    ansible_python_interpreter: "{{ ansible_playbook_python }}"
+  tasks:
+    - gcp_compute_instance:
+        project: tonal-vector-202523
+        auth_kind: serviceaccount
+        service_account_file: "tonal-vector-202523-3e7ce0d4e64d.json"
+        scopes:
+          - https://www.googleapis.com/auth/compute
+        state: present
+        name: "{{ ansible_host }}"
+        machine_type: n1-standard-1
+        zone: us-central1-a
+        network_interfaces:
+          - name: 'network-instance'
+            access_configs:
+            - name: 'External NAT'
+              type: 'ONE_TO_ONE_NAT'
+        disks:
+          - auto_delete: yes
+            boot: true
+            initialize_params:
+              disk_name: 'disk-instance'
+              source_image: 'projects/centos-cloud/global/images/centos-7-v20180911'
+              disk_size_gb: 10
+        metadata:
+          cost-center: me
