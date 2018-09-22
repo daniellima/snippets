@@ -1,9 +1,28 @@
+variable "ssh_public_key" {}
+
+variable "gcp_project" {}
+variable "gcp_credentials" {
+    default = ".google-credentials"
+}
+variable "gcp_region" {}
+variable "gcp_zone" {}
+
+variable "base_image" {
+    default = "projects/centos-cloud/global/images/centos-7-v20180911"
+}
+variable "web_server_tag" {
+    default = "web-server"
+}
+variable "bastion_tag" {
+    default = "bastion"
+}
+
 provider "google" {
     version = "~> 1.18"
-    credentials = "${file("tonal-vector-202523-20a4532eb10b.json")}"
-    project     = "tonal-vector-202523"
-    region      = "us-central1"
-    zone        = "us-central1-c"
+    credentials = "${file(var.gcp_credentials)}"
+    project     = "${var.gcp_project}"
+    region      = "${var.gcp_region}"
+    zone        = "${var.gcp_zone}"
 }
 
 resource "google_compute_firewall" "allow-access-to-bastion" {
@@ -15,7 +34,7 @@ resource "google_compute_firewall" "allow-access-to-bastion" {
         protocol = "tcp"
         ports = ["22"]
     }
-    target_tags = ["bastion"]
+    target_tags = ["${var.bastion_tag}"]
 }
 
 resource "google_compute_instance" "bastion" {
@@ -24,7 +43,7 @@ resource "google_compute_instance" "bastion" {
 
     boot_disk {
         initialize_params {
-            image = "projects/centos-cloud/global/images/centos-7-v20180911"
+            image = "${var.base_image}"
         }
     }
 
@@ -35,10 +54,10 @@ resource "google_compute_instance" "bastion" {
             // Ephemeral IP
         }
     }
-    tags = ["bastion"]
+    tags = ["${var.bastion_tag}"]
 
     metadata {
-        ssh-keys = "danielsantos:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvnjF2HiayRwHj1PxPBcb60Z5iYZHhnPLypNstzY68bvsmZY7xwuEPmJ/wbMw/KfFNaUJipmjdHO2vcZFwRDzpRWhy0SulU+JeOiBKCO660FeSz2dIuiqrLCuFIODAukI+Uc80+L4sjlQ0/reeSzyT2bN9SCCzURc2U5uG/SMOoKtN+UvafgH3XO/zI0GuH/DQ4oNCY1LqOmF55Ukyd/DZKHPwsIjlLLbRZXynvTFF+EzycMnQKtCvMCODpK/TycSVghmNnmuTdKdo3WBDj0xij4YpxCFKXoch4wLT+h5Lx0LsB/+hmE+cgKQdX02PB1GQWppJPyGOskJBWvqiVoLv danielsantos@BRRIOWN013037"
+        ssh-keys = "${var.ssh_public_key}"
     }
 }
 
@@ -51,7 +70,7 @@ resource "google_compute_firewall" "allow-access-to-webserver" {
         protocol = "tcp"
         ports = ["80"]
     }
-    target_tags = ["web-server"]
+    target_tags = ["${var.web_server_tag}"]
 }
 
 resource "google_compute_instance" "web-server" {
@@ -60,7 +79,7 @@ resource "google_compute_instance" "web-server" {
 
     boot_disk {
         initialize_params {
-            image = "projects/centos-cloud/global/images/centos-7-v20180911"
+            image = "${var.base_image}"
         }
     }
 
@@ -71,9 +90,9 @@ resource "google_compute_instance" "web-server" {
             // Ephemeral IP
         }
     }
-    tags = ["web-server"]
+    tags = ["${var.web_server_tag}"]
 
     metadata {
-        ssh-keys = "danielsantos:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvnjF2HiayRwHj1PxPBcb60Z5iYZHhnPLypNstzY68bvsmZY7xwuEPmJ/wbMw/KfFNaUJipmjdHO2vcZFwRDzpRWhy0SulU+JeOiBKCO660FeSz2dIuiqrLCuFIODAukI+Uc80+L4sjlQ0/reeSzyT2bN9SCCzURc2U5uG/SMOoKtN+UvafgH3XO/zI0GuH/DQ4oNCY1LqOmF55Ukyd/DZKHPwsIjlLLbRZXynvTFF+EzycMnQKtCvMCODpK/TycSVghmNnmuTdKdo3WBDj0xij4YpxCFKXoch4wLT+h5Lx0LsB/+hmE+cgKQdX02PB1GQWppJPyGOskJBWvqiVoLv danielsantos@BRRIOWN013037"
+        ssh-keys = "${var.ssh_public_key}"
     }
 }
