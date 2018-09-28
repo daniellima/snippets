@@ -1,0 +1,11 @@
+/code/snippets/dotnet-getting-started/bin/Debug/netcoreapp2.1/dotnet-getting-started.deps.json
+/code/snippets/dotnet-getting-started/bin/Debug/netcoreapp2.1/dotnet-getting-started.runtimeconfig.json
+/code/snippets/dotnet-getting-started/bin/Debug/netcoreapp2.1/dotnet-getting-started.runtimeconfig.dev.json
+/code/snippets/dotnet-getting-started/bin/Debug/netcoreapp2.1/dotnet-getting-started.dll
+/code/snippets/dotnet-getting-started/bin/Debug/netcoreapp2.1/dotnet-getting-started.pdb
+/code/snippets/dotnet-getting-started/obj/Debug/netcoreapp2.1/dotnet-getting-started.csprojAssemblyReference.cache
+/code/snippets/dotnet-getting-started/obj/Debug/netcoreapp2.1/dotnet-getting-started.csproj.CoreCompileInputs.cache
+/code/snippets/dotnet-getting-started/obj/Debug/netcoreapp2.1/dotnet-getting-started.AssemblyInfoInputs.cache
+/code/snippets/dotnet-getting-started/obj/Debug/netcoreapp2.1/dotnet-getting-started.AssemblyInfo.cs
+/code/snippets/dotnet-getting-started/obj/Debug/netcoreapp2.1/dotnet-getting-started.dll
+/code/snippets/dotnet-getting-started/obj/Debug/netcoreapp2.1/dotnet-getting-started.pdb
