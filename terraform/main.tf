@@ -25,6 +25,14 @@ provider "google" {
     zone        = "${var.gcp_zone}"
 }
 
+data "google_compute_address" "bastion-address" {
+  name = "bastion-address"
+}
+
+data "google_compute_address" "webserver-address" {
+  name = "webserver-address"
+}
+
 resource "google_compute_firewall" "allow-access-to-bastion" {
     name = "allow-access-to-bastion"
     network = "default"
@@ -51,7 +59,7 @@ resource "google_compute_instance" "bastion" {
         network = "default"
 
         access_config {
-            // Ephemeral IP
+            nat_ip = "${data.google_compute_address.bastion-address.address}"
         }
     }
     tags = ["${var.bastion_tag}"]
@@ -87,7 +95,7 @@ resource "google_compute_instance" "web-server" {
         network = "default"
 
         access_config {
-            // Ephemeral IP
+            nat_ip = "${data.google_compute_address.webserver-address.address}"
         }
     }
     tags = ["${var.web_server_tag}"]
