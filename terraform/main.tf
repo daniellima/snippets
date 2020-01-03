@@ -104,3 +104,52 @@ resource "google_compute_instance" "web-server" {
         ssh-keys = "${var.ssh_public_key}"
     }
 }
+
+resource "google_compute_instance_group" "webservers" {
+    name = "webservers"
+    instances = [
+        "${google_compute_instance.web-server.self_link}"
+    ]
+
+    named_port {
+        name = "http"
+        port = "80"
+    }
+}
+
+resource "google_compute_health_check" "webservers" {
+    name = "webservers-healthcheck"
+
+    http_health_check {}
+}
+
+resource "google_compute_backend_service" "webservers" {
+    name = "webservers-backend"
+
+    backend {
+        group = "${google_compute_instance_group.webservers.self_link}"
+    }
+
+    health_checks = [
+        "${google_compute_health_check.webservers.self_link}"
+    ]
+}
+
+resource "google_compute_url_map" "webservers" {
+    name = "webservers-url-map"
+
+    default_service = "${google_compute_backend_service.webservers.self_link}"
+}
+
+resource "google_compute_target_http_proxy" "webservers" {
+    name = "webservers-target-proxy"
+    url_map = "${google_compute_url_map.webservers.self_link}"
+}
+
+
+resource "google_compute_global_forwarding_rule" "webservers" {
+    name = "webservers-global-forwarding-rule"
+    port_range = "80"
+    target = "${google_compute_target_http_proxy.webservers.self_link}"
+}
+
