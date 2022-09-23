@@ -22,6 +22,7 @@ func main() {
 	// str.Prop1 = 4
 	// fmt.Println(str.GetProp2())
 
-	WebCrawlerMain()
+	//WebCrawlerMain()
 	// PackageLifeCycleMain()
+	ErrorHandlingMain()
 }
