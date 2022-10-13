@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping List</title>
+    <script>
+        var create = function(tagName, attributesAndValues = {}) {
+            element = document.createElement(tagName)
+
+            for(let attribute in attributesAndValues) {
+                value = attributesAndValues[attribute]
+                if(attribute == 'innerText') {
+                    element.innerText = value
+                }
+                else if(attribute.startsWith('on')) {
+                    element[attribute] = value
+                }
+                else {
+                    element.setAttribute(attribute, value)
+                }
+            }
+
+            return element
+        }
+        var build = function(tag, children) {
+            for(i in children) {
+                tag.appendChild(children[i])
+            }
+
+            return tag
+        }
+        var TextInput = function(attributesAndValues = {}) {
+            return Input('text', attributesAndValues)
+        }
+        var Button = function(attributesAndValues = {}) {
+            return Input('button', attributesAndValues)
+        }
+        var CheckBox = function(attributesAndValues = {}) {
+            return Input('checkbox', attributesAndValues)
+        }
+        var Input = function(type, attributesAndValues = {}) {
+            attributesAndValues['type'] = type
+            
+            element = create('input', attributesAndValues)
+
+            return element
+        }
+    </script>
+    <script>
+        let state = {
+            'subscribers': [],
+            changed() {
+                for(let i in this.subscribers) {
+                    let subscriber = this.subscribers[i]
+                    subscriber()
+                }
+            },
+
+            'itens': [],
+            addItem(name) {
+                this.itens.push(name)
+
+                this.changed()
+            },
+        }
+    </script>
+    <script>
+        var ListItem = function(name) {
+            return build(create('div'), [
+                CheckBox(),
+                create('span', {'innerText': name})
+            ])
+        }
+        var ItemInput = function() {
+            
+            var addItem = function() {
+                state.addItem(textInput.value)
+
+                textInput.value = ''
+            }
+
+            textInput = TextInput({
+                'onkeypress': function() {
+                    if(event.code == "Enter") {
+                        addItem()
+                    }
+                }
+            })
+
+            container = build(create('div'), [
+                textInput,
+                Button({
+                    'value': '+ Add', 
+                    'onclick': addItem
+                }),
+            ])
+
+            return container
+        }
+        var ItemList = function() {
+            let list = create('div')
+
+            state.subscribers.push(function() {
+                list.innerHTML = ''
+                build(list, state.itens.map(function(item) {
+                    return ListItem(item)
+                }))
+            })
+
+            return list
+        }
+    </script>
+    <script>
+        window.onload = function() {
+            build(document.body, [
+                ItemInput(),
+                ItemList()
+            ])
+        }
+    </script>
+</head>
+<body>
+</body>
+</html>
