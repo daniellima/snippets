@@ -7,7 +7,10 @@ exports.handler = async function (event, context) {
     const db = client.db('all');
     const collection = db.collection('test');
 
-    let n = collection.countDocuments()
+    let n = 0
+    collection.countDocuments().then(function(data){
+        n = data
+    })
 
     return {
         statusCode: 200,
