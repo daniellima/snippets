@@ -9,7 +9,7 @@
         window.onload = function() {
             let b = document.getElementById('the-button')
             b.onclick = function() {
-                window.fetch("https://brilliant-quokka-66af44.netlify.app/.netlify/functions/hello").then(function(r){
+                window.fetch("").then(function(r){
                     r.json().then((d) => { console.log(d) })
                 })
             }
