@@ -23,6 +23,7 @@ func main() {
 	// fmt.Println(str.GetProp2())
 
 	//WebCrawlerMain()
-	// PackageLifeCycleMain()
-	ErrorHandlingMain()
+	//PackageLifeCycleMain()
+	//ErrorHandlingMain()
+	//CompositeLiteralMain()
 }
