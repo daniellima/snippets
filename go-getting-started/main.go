@@ -26,4 +26,5 @@ func main() {
 	//PackageLifeCycleMain()
 	//ErrorHandlingMain()
 	//CompositeLiteralMain()
+	EnumTestMain()
 }
