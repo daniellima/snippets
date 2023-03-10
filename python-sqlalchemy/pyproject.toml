@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "python-sqlalchemy"
+version = "0.1.0"
+description = ""
+authors = ["Daniel Lima <daniellima.pessoal@gmail.com>"]
+readme = "README.md"
+packages = [{include = "python_sqlalchemy"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+sqlalchemy = "^1.4.46"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
